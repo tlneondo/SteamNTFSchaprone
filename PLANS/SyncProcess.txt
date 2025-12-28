@@ -1,0 +1,7 @@
+Pre copy:
+Check disk sizes
+Check if steam is downloading or not
+    Check individual games / folders for changes
+    Ignore whited out files
+
+Run overlay per directory

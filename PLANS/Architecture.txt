@@ -1,0 +1,12 @@
+Classes
+
+Drive
+   Folder
+     Directory
+     ->SteamObject
+         ACF path
+         Appid
+         title
+         Status
+         ?Savedir PCGW
+     

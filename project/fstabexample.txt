@@ -1,0 +1,49 @@
+# /etc/fstab: static file system information.
+#
+# Use 'blkid' to print the universally unique identifier for a device; this may
+# be used with UUID= as a more robust way to name devices that works even if
+# disks are added and removed. See fstab(5).
+#
+# <file system>             <mount point>  <type>  <options>  <dump>  <pass>
+UUID=B678-7535                            /boot/efi      vfat    defaults,umask=0077 0 2
+UUID=8ae00849-144a-4c64-a75d-c71f0ebe2062 /boot          ext4    defaults,noatime,commit=60 0 2
+UUID=d0b8e397-1c89-4e67-a5fb-7e24dcff1afd /              btrfs   subvol=/@,defaults,noatime,compress=zstd,commit=120 0 0
+UUID=d0b8e397-1c89-4e67-a5fb-7e24dcff1afd /home          btrfs   subvol=/@home,defaults,noatime,compress=zstd,commit=120 0 0
+UUID=d0b8e397-1c89-4e67-a5fb-7e24dcff1afd /root          btrfs   subvol=/@root,defaults,noatime,compress=zstd,commit=120 0 0
+UUID=d0b8e397-1c89-4e67-a5fb-7e24dcff1afd /srv           btrfs   subvol=/@srv,defaults,noatime,compress=zstd,commit=120 0 0
+UUID=d0b8e397-1c89-4e67-a5fb-7e24dcff1afd /var/cache     btrfs   subvol=/@cache,defaults,noatime,compress=zstd,commit=120 0 0
+UUID=d0b8e397-1c89-4e67-a5fb-7e24dcff1afd /var/tmp       btrfs   subvol=/@tmp,defaults,noatime,compress=zstd,commit=120 0 0
+UUID=d0b8e397-1c89-4e67-a5fb-7e24dcff1afd /var/log       btrfs   subvol=/@log,defaults,noatime,compress=zstd,commit=120 0 0
+tmpfs                                     /tmp           tmpfs   defaults,noatime,mode=1777 0 0
+
+
+#steamapps
+UUID=d0b8e397-1c89-4e67-a5fb-7e24dcff1afd /home/icyjiub/.local/share/Steam/steamapps            btrfs   subvol=@steamapps,compress=zstd 0 0
+
+
+#ExtraDrives
+UUID=02f2f357-5109-427c-b735-4103c2029182 /mnt/NVME0                                            btrfs   subvol=root,defaults,discard=async,ssd,noatime,compress=zstd 0 0
+UUID=bbb6087b-75e5-413f-9283-9065cb2396b1 /mnt/SSD3                                             btrfs   defaults,discard=async,ssd,noatime,compress=zstd 0 0
+UUID=ab7ffd5c-1cb6-4e20-9168-3f9d3b26393e /mnt/Documents                                        btrfs   defaults,noatime,compress=zstd 0 0
+UUID=c658b823-655d-4e67-8a9a-1c4d87313200 /mnt/Storage                                          btrfs   defaults,noatime,compress=zstd 0 0
+
+
+
+#plain Windows partition, not automatically mounted
+UUID=22BC9DF4BC9DC2A9                     /mnt/Windows                                          lowntfs-3g    defaults,uid=1000,gid=1000,windows_names,noauto,prealloc 0 0
+
+
+#Extra NTFS Drives With Overlay Mounts
+
+#mounts for lower ntfs bottom layers
+UUID=82C425D7C425CDEB /mnt/winOverlay/SSDWinLower ntfs-3g rw,defaults,windows_names,prealloc 0 0
+UUID=78DBFD1A57D3E447 /mnt/winOverlay/SSD2WinLower ntfs-3g rw,defaults,windows_names,prealloc 0 0
+
+#overlays, lower layer are windows drive, upper layers are folders on NVME0
+overlay /mnt/SSDWin overlay noauto,x-systemd.automount,defaults,lowerdir=/mnt/winOverlay/SSDWinLower,upperdir=/mnt/NVME0/NTFSOverlays/SSDWinUpper,workdir=/mnt/NVME0/NTFSOverlays/Merge/SSDWinMerge
+overlay /mnt/SSD2Win overlay noauto,x-systemd.automount,defaults,lowerdir=/mnt/winOverlay/SSD2WinLower,upperdir=/mnt/NVME0/NTFSOverlays/SSD2WinUpper,workdir=/mnt/NVME0/NTFSOverlays/Merge/SSD2WinMerge
+
+
+UUID=d0b8e397-1c89-4e67-a5fb-7e24dcff1afd /mnt/oldroot          btrfs   subvol=/@oldroot,defaults,noatime,compress=zstd,commit=120 0 0
+UUID=d0b8e397-1c89-4e67-a5fb-7e24dcff1afd /mnt/oldhome          btrfs   subvol=/@oldhome,defaults,noatime,compress=zstd,commit=120 0 0
+UUID=d0b8e397-1c89-4e67-a5fb-7e24dcff1afd /mnt/oldopt          btrfs   subvol=/@oldopt,defaults,noatime,compress=zstd,commit=120 0 0
